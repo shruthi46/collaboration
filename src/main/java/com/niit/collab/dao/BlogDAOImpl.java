@@ -16,6 +16,7 @@ public class BlogDAOImpl implements BlogDAO {
 	
 	@Autowired
 	private SessionFactory sessionFactory;
+	
 	public BlogDAOImpl(SessionFactory sessionFactory) {
 		this.sessionFactory=sessionFactory;
 	}

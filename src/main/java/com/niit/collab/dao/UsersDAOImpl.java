@@ -20,7 +20,7 @@ import com.niit.collab.dao.UsersDAOImpl;
 @Repository(value="usersDAO")
 public class UsersDAOImpl implements UsersDAO {
 	
-	private static final org.jboss.logging.Logger log= LoggerFactory.getLogger(userDAOImpl.class);
+	private static final Logger log= LoggerFactory.getLogger(UsersDAOImpl.class);
 
 
 	@Autowired(required=true)
@@ -46,6 +46,8 @@ public class UsersDAOImpl implements UsersDAO {
 	}
 	@Transactional
 	public boolean update(Users users) {
+		
+		log.debug("calling of the method update");
 		try {
 			sessionFactory.getCurrentSession().update(users);
 			
@@ -55,9 +57,14 @@ public class UsersDAOImpl implements UsersDAO {
 			return false;
 		}
 	}
+	
+	
+	
+	
 
 	@Transactional
 	public boolean delete(Users users) {
+		log.debug("calling of the method delete");
 		try {
 			sessionFactory.getCurrentSession().delete(users);
 			
@@ -68,25 +75,40 @@ public class UsersDAOImpl implements UsersDAO {
 		}
 	}
 	
+	
+	
 	@Transactional
-	public Users get(String userID)
+	public Users get(int userID)
 	{
+		log.debug("calling of the method save");
+		log.debug("userID is :" + userID);
 		return (Users) sessionFactory.getCurrentSession().get(Users.class, userID);
 	}
 	
+	
 	@Transactional
-	public Users validate(String userID, String password)
+	public Users validate(int userID, String password)
 	{
+		log.debug("calling of the method validate");
+		log.debug("userID is :" + userID + "' and password ='" +password+ "'");
+		
 		String hql="from Users where userID='" +userID +" ' and password=' "+password+ "'";
+		log.debug("the query is :" +hql);
 	     Query query= sessionFactory.getCurrentSession().createQuery(hql);
 		return (Users) query.uniqueResult();
 	}
+	
+	
 	@SuppressWarnings({ "deprecation", "unchecked" })
 	@Transactional
-	public List<Users> list() {
+	public List<Users> getAllUsers() {
+		log.debug("calling of the method getAllUsers");
 		Criteria c=sessionFactory.getCurrentSession().createCriteria(Users.class);
-		List<Users> list=c.list();
+/*		List<Users> list=c.list();*/
+		List<Users> list=c.list()
+				;
 		return list;
-	}
+	}  
+	
 
 }

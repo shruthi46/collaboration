@@ -9,10 +9,12 @@ import javax.persistence.Table;
 
 import org.springframework.stereotype.Component;
 
+
 @Entity
 @Table(name="userdetails")
 @Component
-public class Users {
+public class Users 
+{
 
 	@Id
 	@GeneratedValue
