@@ -17,9 +17,9 @@ public class Forum {
 	@Id
 	@GeneratedValue
 	private int id;
+	private int userid;
 	private String name;
 	private String topic;
-	private int userid;
 	private Date doc;
 	private String description;
 	public int getId() {

@@ -5,34 +5,45 @@ import java.util.List;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RestController;
 
-import com.niit.collab.dao.UsersDAO;
-import com.niit.collab.model.Users;
+import com.niit.collab.dao.UserDAO;
+import com.niit.collab.model.User;
 
 @RestController
 public class UserController {
 @Autowired
-private UsersDAO usersDAO;
+private UserDAO userDAO;
 
 @PostMapping(value="/register")
-public ResponseEntity<Users> adduser(@RequestBody Users users){
+public ResponseEntity<User> adduser(@RequestBody User user){
 	System.out.println("hello");
-	usersDAO.save(users);
-	return new ResponseEntity<Users>(users, HttpStatus.OK);
+	/*user.setStatus('n');*/
+	userDAO.saveOrUpdate(user);
+	return new ResponseEntity<User>(user, HttpStatus.OK);
 	
 }
 @GetMapping(value="/users")
-public ResponseEntity<List<Users>> listuser(){
+public ResponseEntity<List<User>> listuser(){
 	System.out.println("list of users");
-	List<Users> users =usersDAO.getAllUsers();
-	return new ResponseEntity<List<Users>>(users,HttpStatus.OK);
+	List<User> user =userDAO.list();
+	return new ResponseEntity<List<User>>(user,HttpStatus.OK);
 	
 	
 }
+
+@DeleteMapping(value="/deleteuser/{userid}")
+public ResponseEntity<User> deleteuser(User user,@PathVariable("userid") int userid){
+ User users1=userDAO.getuser(userid);
+ userDAO.delete(users1);
+ return new ResponseEntity<User>(user,HttpStatus.OK);
+}
+
 }
 
 

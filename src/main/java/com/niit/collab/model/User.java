@@ -13,47 +13,33 @@ import org.springframework.stereotype.Component;
 @Entity
 @Table(name="userdetails")
 @Component
-public class Users 
+public class User
 {
 
 	@Id
 	@GeneratedValue
-	private int id;
+	private int userid;
 	private String username;
-	private String role;
-	private String mail;
+	private String email;
 	private String password;
 	private int  mobile;
 	private String address;
 	private Date dob;
 	private String gender;
-	private char isOnline;
-	
+	private String role;
 	private char status;
-	private String reason;
-	public char getIsOnline() {
-		return isOnline;
-	}
-	public void setIsOnline(char isOnline) {
-		this.isOnline = isOnline;
-	}
+	
 	public char getStatus() {
 		return status;
 	}
 	public void setStatus(char status) {
 		this.status = status;
 	}
-	public String getReason() {
-		return reason;
+	public int getUserid() {
+		return userid;
 	}
-	public void setReason(String reason) {
-		this.reason = reason;
-	}
-	public int getId() {
-		return id;
-	}
-	public void setId(int id) {
-		this.id = id;
+	public void setUserid(int userid) {
+		this.userid = userid;
 	}
 	public String getUsername() {
 		return username;
@@ -61,17 +47,11 @@ public class Users
 	public void setUsername(String username) {
 		this.username = username;
 	}
-	public String getRole() {
-		return role;
+	public String getEmail() {
+		return email;
 	}
-	public void setRole(String role) {
-		this.role = role;
-	}
-	public String getMail() {
-		return mail;
-	}
-	public void setMail(String mail) {
-		this.mail = mail;
+	public void setEmail(String email) {
+		this.email = email;
 	}
 	public String getPassword() {
 		return password;
@@ -103,5 +83,12 @@ public class Users
 	public void setGender(String gender) {
 		this.gender = gender;
 	}
+	public String getRole() {
+		return role;
+	}
+	public void setRole(String role) {
+		this.role = role;
+	}
+	
 	
 }

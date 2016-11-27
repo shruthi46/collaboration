@@ -1,7 +1,5 @@
 package com.niit.collab.model;
 
-import java.util.Date;
-
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.Id;
@@ -12,14 +10,15 @@ import org.springframework.stereotype.Component;
 @Entity
 @Table
 @Component
-public class Blog {
+public class Friend {
+
 	@Id
 	@GeneratedValue
 	private int id;
 	private int userid;
-	private String title;
-	private Date doc;
-	private String description;
+	private int friendid;
+	private char status;   //n-newly sent, a-approved, r-rejected, u-unfriend
+	
 	public int getId() {
 		return id;
 	}
@@ -32,26 +31,17 @@ public class Blog {
 	public void setUserid(int userid) {
 		this.userid = userid;
 	}
-	public String getTitle() {
-		return title;
+	public int getFriendid() {
+		return friendid;
 	}
-	public void setTitle(String title) {
-		this.title = title;
+	public void setFriendid(int friendid) {
+		this.friendid = friendid;
 	}
-	public Date getDoc() {
-		return doc;
+	public char getStatus() {
+		return status;
 	}
-	public void setDoc(Date doc) {
-		this.doc = doc;
-	}
-	public String getDescription() {
-		return description;
-	}
-	public void setDescription(String description) {
-		this.description = description;
+	public void setStatus(char status) {
+		this.status = status;
 	}
 	
-	
-	
-
 }

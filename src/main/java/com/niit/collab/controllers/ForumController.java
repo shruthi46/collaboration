@@ -36,7 +36,7 @@ public class ForumController {
 	}
 	@DeleteMapping(value="/deleteforum/{forumid}")
 	public ResponseEntity<Forum> deleteforum(Forum forum,@PathVariable("forumid") int forumid){
-		Forum forum1=forumDAO.getforum(forumid);
+		Forum forum1=forumDAO.get(forumid);
 		forumDAO.delete(forum1);
 		return new ResponseEntity<Forum>(forum,HttpStatus.OK);
 	}

@@ -21,15 +21,17 @@ import com.niit.collab.dao.EventDAO;
 import com.niit.collab.dao.EventDAOImpl;
 import com.niit.collab.dao.ForumDAO;
 import com.niit.collab.dao.ForumDAOImpl;
+import com.niit.collab.dao.FriendDAO;
+import com.niit.collab.dao.FriendDAOImpl;
 import com.niit.collab.dao.JobDAO;
 import com.niit.collab.dao.JobDAOImpl;
-import com.niit.collab.dao.UsersDAO;
-import com.niit.collab.dao.UsersDAOImpl;
+import com.niit.collab.dao.UserDAO;
+import com.niit.collab.dao.UserDAOImpl;
 import com.niit.collab.model.Blog;
 import com.niit.collab.model.Event;
 import com.niit.collab.model.Forum;
 import com.niit.collab.model.Job;
-import com.niit.collab.model.Users;
+import com.niit.collab.model.*;
 
 
 @Configuration
@@ -63,10 +65,11 @@ public SessionFactory getSessionFactory(DataSource dataSource){
 	LocalSessionFactoryBuilder sessionBuilder=new LocalSessionFactoryBuilder(dataSource);
 	sessionBuilder.addProperties(getHibernateProperties());
 	sessionBuilder.addAnnotatedClass(Blog.class);
-	sessionBuilder.addAnnotatedClass(Users.class);
+	sessionBuilder.addAnnotatedClass(User.class);
 	sessionBuilder.addAnnotatedClass(Event.class);
 	sessionBuilder.addAnnotatedClass(Forum.class);
 	sessionBuilder.addAnnotatedClass(Job.class);
+	sessionBuilder.addAnnotatedClass(Friend.class);
 	return sessionBuilder.buildSessionFactory();
 	
 }
@@ -87,9 +90,9 @@ public BlogDAO getBlogDAO(SessionFactory sessionFactory){
 
 @Autowired
 @Bean(name="usersDAO")
-public UsersDAO getUsersDAO(SessionFactory sessionFactory){
+public UserDAO getUsersDAO(SessionFactory sessionFactory){
 	
-	return new UsersDAOImpl(sessionFactory);
+	return new UserDAOImpl(sessionFactory);
 }
 @Autowired
 @Bean(name="eventDAO")
@@ -109,4 +112,11 @@ public JobDAO getJobDAO(SessionFactory sessionFactory){
 	
 	return new JobDAOImpl(sessionFactory);
 }
+
+@Autowired
+@Bean(name="friendDAO")
+public FriendDAO getFriendDAO(SessionFactory sessionFactory){
+	
+	return new FriendDAOImpl(sessionFactory);
+}s
 }
