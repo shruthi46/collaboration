@@ -44,21 +44,6 @@ public class UserDAOImpl implements UserDAO {
 			return false;
 		}
 	}
-	/*@Transactional
-	public boolean update(User user) {
-		
-		log.debug("calling of the method update");
-		try {
-			sessionFactory.getCurrentSession().update(users);
-			
-			return true;
-		} catch (Exception e) {
-			e.printStackTrace();
-			return false;
-		}
-	}
-	*/
-	
 	
 	
 
@@ -78,7 +63,7 @@ public class UserDAOImpl implements UserDAO {
 	
 	
 	@Transactional
-	public User getuser(int id) {
+	public List<User> getuser(int id) {
 		  String hql = "from User where id= "+ "'"+ id+"'" ;
 		  Query query=sessionFactory.getCurrentSession().createQuery(hql);
 		  List<User>list= query.list();
@@ -89,41 +74,39 @@ public class UserDAOImpl implements UserDAO {
 		  }
 		  else
 		  {
-		   return list.get(0);
+		   return (List<User>) list.get(0);
 		  }
 		 }
 	
 	
 	
 	
-	@SuppressWarnings({ "deprecation", "unchecked" })
 	@Transactional
 	public List<User> list() {
 		log.debug("calling of the method getAllUsers");
-		Criteria c=sessionFactory.getCurrentSession().createCriteria(User.class);
+		Query c=sessionFactory.getCurrentSession().createQuery("from User");
 
 		List<User> list=c.list();
 				
 		return list;
 	}
-	@SuppressWarnings({ "rawtypes", "deprecation", "unchecked" })
 	@Transactional
 	public User authuser(String username, String password) {
-		String hql="from Users where username= "+"'"+username+"'"+"and password= "+"'"+password+"'";
-		Query query = sessionFactory.getCurrentSession().createQuery(hql);
+		String hql="from User where username= "+"'"+username+"'"+"and password= "+"'"+password+"'";
+		Query query=sessionFactory.getCurrentSession().createQuery(hql);
 		List<User>list=query.list();
 		if(list==null)
 		{
 			return null;
 		}
-		else
-		{
+		else{
 			return list.get(0);
 		}
+		
 	}
 	@Transactional
 	public User logout(int id) {
-		String hql = "from Users where id= "+ "'"+ id+"'" ;
+		String hql = "from User where id= "+ "'"+ id+"'" ;
 		Query query=sessionFactory.getCurrentSession().createQuery(hql);
 		List<User>list= query.list();
 		
@@ -137,18 +120,7 @@ public class UserDAOImpl implements UserDAO {
 		}
 	}
 	
-	/*@Transactional
-	public User validate(int id, String password)
-	{
-		log.debug("calling of the method validate");
-		log.debug("id is :" + id + "' and password ='" +password+ "'");
-		
-		String hql="from Users where userID='" +id +" ' and password=' "+password+ "'";
-		log.debug("the query is :" +hql);
-	     Query query= sessionFactory.getCurrentSession().createQuery(hql);
-		return (User) query.uniqueResult();
-	}
-	*/
+	
 	
 
 }

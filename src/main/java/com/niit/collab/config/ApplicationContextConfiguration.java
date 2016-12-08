@@ -17,8 +17,6 @@ import org.springframework.web.servlet.config.annotation.EnableWebMvc;
 
 import com.niit.collab.dao.BlogDAO;
 import com.niit.collab.dao.BlogDAOImpl;
-import com.niit.collab.dao.EventDAO;
-import com.niit.collab.dao.EventDAOImpl;
 import com.niit.collab.dao.ForumDAO;
 import com.niit.collab.dao.ForumDAOImpl;
 import com.niit.collab.dao.FriendDAO;
@@ -28,7 +26,6 @@ import com.niit.collab.dao.JobDAOImpl;
 import com.niit.collab.dao.UserDAO;
 import com.niit.collab.dao.UserDAOImpl;
 import com.niit.collab.model.Blog;
-import com.niit.collab.model.Event;
 import com.niit.collab.model.Forum;
 import com.niit.collab.model.Job;
 import com.niit.collab.model.*;
@@ -66,7 +63,6 @@ public SessionFactory getSessionFactory(DataSource dataSource){
 	sessionBuilder.addProperties(getHibernateProperties());
 	sessionBuilder.addAnnotatedClass(Blog.class);
 	sessionBuilder.addAnnotatedClass(User.class);
-	sessionBuilder.addAnnotatedClass(Event.class);
 	sessionBuilder.addAnnotatedClass(Forum.class);
 	sessionBuilder.addAnnotatedClass(Job.class);
 	sessionBuilder.addAnnotatedClass(Friend.class);
@@ -94,12 +90,7 @@ public UserDAO getUsersDAO(SessionFactory sessionFactory){
 	
 	return new UserDAOImpl(sessionFactory);
 }
-@Autowired
-@Bean(name="eventDAO")
-public EventDAO getEventDAO(SessionFactory sessionFactory){
-	
-	return new EventDAOImpl(sessionFactory);
-}
+
 @Autowired
 @Bean(name="forumDAO")
 public ForumDAO getForumDAO(SessionFactory sessionFactory){
@@ -118,5 +109,5 @@ public JobDAO getJobDAO(SessionFactory sessionFactory){
 public FriendDAO getFriendDAO(SessionFactory sessionFactory){
 	
 	return new FriendDAOImpl(sessionFactory);
-}s
+}
 }

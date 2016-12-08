@@ -17,15 +17,16 @@ import com.niit.collab.model.User;
 
 @RestController
 public class UserController {
+	
 @Autowired
 private UserDAO userDAO;
 
 @PostMapping(value="/register")
-public ResponseEntity<User> adduser(@RequestBody User user){
+public ResponseEntity<User> adduser(@RequestBody User users){
 	System.out.println("hello");
 	/*user.setStatus('n');*/
-	userDAO.saveOrUpdate(user);
-	return new ResponseEntity<User>(user, HttpStatus.OK);
+	userDAO.saveOrUpdate(users);
+	return new ResponseEntity<User>(users, HttpStatus.OK);
 	
 }
 @GetMapping(value="/users")
@@ -37,12 +38,13 @@ public ResponseEntity<List<User>> listuser(){
 	
 }
 
-@DeleteMapping(value="/deleteuser/{userid}")
-public ResponseEntity<User> deleteuser(User user,@PathVariable("userid") int userid){
- User users1=userDAO.getuser(userid);
- userDAO.delete(users1);
- return new ResponseEntity<User>(user,HttpStatus.OK);
+
+@GetMapping(value="/oneuser/{id}")
+public ResponseEntity<List<User>> oneuser(@PathVariable("id") int id){
+	List<User> oneuser=userDAO.getuser(id);
+	return new ResponseEntity<List<User>>(oneuser,HttpStatus.OK);
 }
+
 
 }
 
