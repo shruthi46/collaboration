@@ -28,7 +28,14 @@ public class User
 	private String gender;
 	private String role;
 	private char status;
+	private byte[] image;
 	
+	public byte[] getImage() {
+		return image;
+	}
+	public void setImage(byte[] image) {
+		this.image = image;
+	}
 	public char getStatus() {
 		return status;
 	}

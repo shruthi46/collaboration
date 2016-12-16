@@ -17,6 +17,8 @@ import org.springframework.web.servlet.config.annotation.EnableWebMvc;
 
 import com.niit.collab.dao.BlogDAO;
 import com.niit.collab.dao.BlogDAOImpl;
+import com.niit.collab.dao.ForumCommentDAO;
+import com.niit.collab.dao.ForumCommentDAOImpl;
 import com.niit.collab.dao.ForumDAO;
 import com.niit.collab.dao.ForumDAOImpl;
 import com.niit.collab.dao.FriendDAO;
@@ -66,6 +68,7 @@ public SessionFactory getSessionFactory(DataSource dataSource){
 	sessionBuilder.addAnnotatedClass(Forum.class);
 	sessionBuilder.addAnnotatedClass(Job.class);
 	sessionBuilder.addAnnotatedClass(Friend.class);
+	sessionBuilder.addAnnotatedClass(ForumComment.class);
 	return sessionBuilder.buildSessionFactory();
 	
 }
@@ -109,5 +112,11 @@ public JobDAO getJobDAO(SessionFactory sessionFactory){
 public FriendDAO getFriendDAO(SessionFactory sessionFactory){
 	
 	return new FriendDAOImpl(sessionFactory);
+}
+
+@Bean(name="forumCommentDAO")
+public ForumCommentDAO getForumCommetDAO(SessionFactory sessionFactory){
+	
+	return new ForumCommentDAOImpl(sessionFactory);
 }
 }

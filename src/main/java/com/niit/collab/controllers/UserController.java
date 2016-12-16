@@ -1,6 +1,9 @@
 package com.niit.collab.controllers;
 
+import java.io.IOException;
 import java.util.List;
+
+import javax.servlet.http.HttpSession;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
@@ -11,6 +14,7 @@ import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.multipart.MultipartFile;
 
 import com.niit.collab.dao.UserDAO;
 import com.niit.collab.model.User;
@@ -32,164 +36,49 @@ public ResponseEntity<User> adduser(@RequestBody User users){
 @GetMapping(value="/users")
 public ResponseEntity<List<User>> listuser(){
 	System.out.println("list of users");
-	List<User> user =userDAO.list();
-	return new ResponseEntity<List<User>>(user,HttpStatus.OK);
+	List<User> user1 =userDAO.list();
+	return new ResponseEntity<List<User>>(user1,HttpStatus.OK);
 	
 	
 }
 
-
-@GetMapping(value="/oneuser/{id}")
-public ResponseEntity<List<User>> oneuser(@PathVariable("id") int id){
-	List<User> oneuser=userDAO.getuser(id);
-	return new ResponseEntity<List<User>>(oneuser,HttpStatus.OK);
+@DeleteMapping(value="/deleteuser/{id}")
+public ResponseEntity<User> deleteblog(User user,@PathVariable("id") int id){
+	User user1=userDAO.getuser(id);
+	userDAO.delete(user);
+	return new ResponseEntity<User>(user,HttpStatus.OK);
 }
 
 
+@GetMapping(value="/oneuser")
+public ResponseEntity<User> oneuser(HttpSession session){
+	String username=(String) session.getAttribute("username");
+	User oneuser=userDAO.profileof(username);
+	return new ResponseEntity<User>(oneuser,HttpStatus.OK);
 }
 
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-/*package com.niit.collab.controllers;
-
-import java.util.List;
-
-import javax.servlet.http.HttpSession;
-
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.http.HttpStatus;
-import org.springframework.http.ResponseEntity;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RestController;
-
-import com.niit.collab.dao.UsersDAO;
-import com.niit.collab.model.Users;
-import com.niit.collab.dao.UsersDAOImpl;
-import com.niit.collab.model.BaseDomain;
-
-
-@RestController
-public class UserController 
-{
-@Autowired
-private UsersDAO usersDAO;
-
-@Autowired
-private Users users;
-
-@PostMapping(value="/register")
-public ResponseEntity<Users> adduser( Users users){
-	System.out.println("hello");
-	usersDAO.save(users);
-	return new ResponseEntity<Users>(users, HttpStatus.OK);
+@PostMapping("/imageUpload")
+public void ImageUpload(@RequestBody MultipartFile file,HttpSession session) throws IOException {
 	
+	String username = (String) session.getAttribute("username"); /*Get Logged in Username*/
+	User users=userDAO.profileof(username);					/*Get user object based on username*/
+	System.out.println(file.getContentType()+'\n'+file.getName()+'\n'+file.getSize()+'\n'+file.getOriginalFilename());
+	users.setImage(file.getBytes());
+	userDAO.saveOrUpdate(users);
 }
 
-@PostMapping(value="/register")
-public ResponseEntity<Users> register(@RequestBody Users users){
-	System.out.println("hello");
-	if(UsersDAO.get(users.getId())!=null)
-	{
-		users.setErrorCode("404");
-		users.setErrorMessage("user already exit with the id :" +users.getId());
-	}
-	else
-	{
-		users.setIsOnline('N');
-		users.setIsOnline('N');
-		boolean flag=usersDAO.save(users)
-		if(flag.save(users)==false)
-		{
-			users.setErrorCode("404");
-			users.setErrorMessage("not able to register.please contact admin");
-		}
-			
-	}
-	
-	return new ResponseEntity<Users>(users, HttpStatus.OK);
-	
+@GetMapping("/profileimage")
+public ResponseEntity<User> profileimage(HttpSession session){
+	int uid=(Integer) session.getAttribute("uid");
+	User users=userDAO.getuser(uid);
+	return new ResponseEntity<User>(users, HttpStatus.OK);
+}
+@GetMapping("/nonfriends")
+public ResponseEntity<List<User>> nonfriends(HttpSession session){
+	int uid=(Integer) session.getAttribute("uid");
+	List<User> nonfriends=userDAO.nonfriends(uid);
+	return new ResponseEntity<List<User>>(nonfriends,HttpStatus.OK);
 }
 
-
-@GetMapping(value="/users")
-public ResponseEntity<List<Users>> getAllUsers(){
-	System.out.println("list of users");
-	List<Users> userList =usersDAO.getAllUsers();
-	if(userList.isEmpty())
-	{
-		users.setErrorCode("404");
-		users.setErrorMessage("users are not available");
-		userList.add(users);
-		
-		
-	}
-	return new ResponseEntity<List<Users>>(userList,HttpStatus.OK);
-	
-	
 }
 
-@PostMapping(value="/login")
-public ResponseEntity<Users> login(@RequestBody Users Users,HttpSession htppSession)
-{
-	users=UsersDAO.validate(users.getId(),users.getPassword());
-	if(users==null)
-	{
-		users=new Users();//to avoid nullpointerException
-		users.setErrorCode("404");
-		users.setErrorMessage("invalid Credentials please try again");
-		
-	}
-	else
-	{
-		httpSession.setAttribute("loggedInUserID",users.getId());
-		users.setIsOnline('Y');
-		friendDAO.setOnline(users.getId());
-		friendDAO.update(friend);
-		UsersDAO.update(users);
-	}
-}
-}
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-}
-*/
