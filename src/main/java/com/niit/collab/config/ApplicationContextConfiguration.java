@@ -17,6 +17,8 @@ import org.springframework.web.servlet.config.annotation.EnableWebMvc;
 
 import com.niit.collab.dao.BlogDAO;
 import com.niit.collab.dao.BlogDAOImpl;
+import com.niit.collab.dao.BlogLikesDAO;
+import com.niit.collab.dao.BlogLikesDAOImpl;
 import com.niit.collab.dao.ForumCommentDAO;
 import com.niit.collab.dao.ForumCommentDAOImpl;
 import com.niit.collab.dao.ForumDAO;
@@ -69,6 +71,7 @@ public SessionFactory getSessionFactory(DataSource dataSource){
 	sessionBuilder.addAnnotatedClass(Job.class);
 	sessionBuilder.addAnnotatedClass(Friend.class);
 	sessionBuilder.addAnnotatedClass(ForumComment.class);
+	sessionBuilder.addAnnotatedClass(BlogLikes.class);
 	return sessionBuilder.buildSessionFactory();
 	
 }
@@ -118,5 +121,11 @@ public FriendDAO getFriendDAO(SessionFactory sessionFactory){
 public ForumCommentDAO getForumCommetDAO(SessionFactory sessionFactory){
 	
 	return new ForumCommentDAOImpl(sessionFactory);
+}
+
+@Autowired
+@Bean(name="blogLikesDAO")
+public BlogLikesDAO getBlogLikesDAO(SessionFactory sessionFactory){
+	return new BlogLikesDAOImpl(sessionFactory);
 }
 }
